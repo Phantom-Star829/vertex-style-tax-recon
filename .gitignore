@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+
+# Generated artifacts (kept in output/, but ignore SQLite working copies)
+data/*.db
+data/*.sqlite
+data/*.sqlite3
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
