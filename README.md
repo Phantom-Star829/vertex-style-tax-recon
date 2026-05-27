@@ -95,7 +95,11 @@ The vocabulary maps cleanly: "rate mismatch," "missing exemption certificate," "
 
 ---
 
-## Sample SQL output
+## Sample output
+
+The PDF the pipeline ships to the manager:
+
+![Returns summary preview](docs/returns_summary_preview.png)
 
 `sql/03_missing_exemption_certs.sql`:
 
@@ -115,6 +119,17 @@ ORDER BY t.sale_price DESC;
 ```
 
 Each exempt transaction with a missing cert is a state-audit exposure. The query lifts them out of 5,000 rows in seconds.
+
+---
+
+## Sample CSV row (from `output/recon_detail.csv`)
+
+```csv
+transaction_id,sale_date,taxing_state,rate_applied,sale_price,trade_in_value,taxable_base,tax_owed,tax_collected,variance,category
+T000269,2025-10-29,AZ,0.081,28769.23,17235.10,11534.13,934.26,2330.31,1396.05,tradein_credit_error
+```
+
+That single row tells the story: AZ allows full trade-in credit, the engine taxed $11,534 at 8.1% ($934.26), but the POS taxed the gross $28,769 ($2,330.31). The $1,396.05 variance lands in the `tradein_credit_error` bucket and queues for a credit memo.
 
 ---
 
